@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import { X, Plus, Trash2, ChefHat, Sparkles, AlertCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { X, Plus, Trash2, Sparkles, Utensils } from 'lucide-react';
 import { categories } from '../data/recipes';
 
-export default function AddRecipeModal({ isOpen, onClose, onAddRecipe }) {
+export default function AddRecipeModal({ isOpen, onClose, onSaveRecipe, recipeToEdit }) {
   if (!isOpen) return null;
 
   const [title, setTitle] = useState('');
   const [titleEn, setTitleEn] = useState('');
+  const [chef, setChef] = useState('Burmese Food Recipes');
   const [category, setCategory] = useState(categories[1] || 'အဓိက ဟင်းလျာများ');
   const [difficulty, setDifficulty] = useState('အသင့်အတင့်');
   const [prepTime, setPrepTime] = useState('၁၅ မိနစ်');
@@ -17,18 +18,39 @@ export default function AddRecipeModal({ isOpen, onClose, onAddRecipe }) {
   const [description, setDescription] = useState('');
   const [chefTip, setChefTip] = useState('');
 
-  // Ingredients state
   const [ingredients, setIngredients] = useState([
     { name: 'ဆား (Salt)', baseAmount: 1, unit: 'လက်ဖက်ရည်ဇွန်း' },
     { name: 'ကြက်သားမှုန့် သို့မဟုတ် အချိုမှုန့်', baseAmount: 1, unit: 'လက်ဖက်ရည်ဇွန်း' },
     { name: 'ဆီ (Oil)', baseAmount: 3, unit: 'ထမင်းစားဇွန်း' }
   ]);
 
-  // Steps state
   const [steps, setSteps] = useState([
     { step: 1, title: 'ပါဝင်ပစ္စည်းများ ပြင်ဆင်ခြင်း', desc: 'ပါဝင်ပစ္စည်းများကို သန့်စင်ပြီး အရသာနယ်ထားပါ။', timerSeconds: 300, tip: 'အသားထဲ အရသာစိမ့်ဝင်အောင် ၁၀ မိနစ်ခန့် နှပ်ထားပါ။' },
     { step: 2, title: 'ဆီသတ်ချက်ပြုတ်ခြင်း', desc: 'ဆီပူလာပါက မွှေးလာသည်အထိ ဆီသတ်ပြီး ကျက်သည်အထိ တည်ပါ။', timerSeconds: 600, tip: 'မီးအလွန်မပြင်းစေရန် သတိပြုပါ။' }
   ]);
+
+  useEffect(() => {
+    if (recipeToEdit) {
+      setTitle(recipeToEdit.title || '');
+      setTitleEn(recipeToEdit.titleEn || '');
+      setChef(recipeToEdit.chef || 'Burmese Food Recipes');
+      setCategory(recipeToEdit.category || categories[1]);
+      setDifficulty(recipeToEdit.difficulty || 'အသင့်အတင့်');
+      setPrepTime(recipeToEdit.prepTime || '၁၅ မိနစ်');
+      setCookTime(recipeToEdit.cookTime || '၂၅ မိနစ်');
+      setBaseServings(recipeToEdit.baseServings || 4);
+      setCalories(recipeToEdit.calories || '420 kcal');
+      setImage(recipeToEdit.image || '');
+      setDescription(recipeToEdit.description || '');
+      setChefTip(recipeToEdit.chefTip || '');
+      if (recipeToEdit.ingredients && recipeToEdit.ingredients.length > 0) {
+        setIngredients(recipeToEdit.ingredients);
+      }
+      if (recipeToEdit.steps && recipeToEdit.steps.length > 0) {
+        setSteps(recipeToEdit.steps);
+      }
+    }
+  }, [recipeToEdit]);
 
   const handleAddIngredient = () => {
     setIngredients(prev => [...prev, { name: '', baseAmount: 1, unit: 'ဇွန်း' }]);
@@ -72,20 +94,21 @@ export default function AddRecipeModal({ isOpen, onClose, onAddRecipe }) {
       return;
     }
 
-    const newRecipe = {
-      id: 'custom-' + Date.now(),
-      title,
-      titleEn: titleEn || title,
-      chef: 'Chef Kyaw Min',
-      chefTitle: 'Executive Chef',
+    const recipeData = {
+      ...(recipeToEdit || {}),
+      id: recipeToEdit ? recipeToEdit.id : 'recipe-' + Date.now(),
+      title: title.trim(),
+      titleEn: titleEn.trim() || title.trim(),
+      chef: chef.trim() || 'Burmese Food Recipes',
+      chefTitle: 'Traditional Culinary Expert',
       category: category.startsWith('အားလုံး') ? 'အဓိက ဟင်းလျာများ' : category,
       difficulty,
       prepTime,
       cookTime,
       baseServings: parseInt(baseServings, 10) || 4,
       calories,
-      rating: 5.0,
-      reviewsCount: 1,
+      rating: recipeToEdit?.rating || 5.0,
+      reviewsCount: recipeToEdit?.reviewsCount || 0,
       image,
       description,
       chefTip,
@@ -93,7 +116,7 @@ export default function AddRecipeModal({ isOpen, onClose, onAddRecipe }) {
       steps: steps.filter(s => s.title.trim() !== '' || s.desc.trim() !== '')
     };
 
-    onAddRecipe(newRecipe);
+    onSaveRecipe(recipeData);
     onClose();
   };
 
@@ -105,14 +128,14 @@ export default function AddRecipeModal({ isOpen, onClose, onAddRecipe }) {
         <div className="flex items-center justify-between border-b border-stone-100 pb-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center">
-              <ChefHat className="w-5 h-5" />
+              <Utensils className="w-5 h-5" />
             </div>
             <div>
               <h3 className="font-extrabold text-lg sm:text-xl text-stone-900">
-                ဟင်းချက်နည်းအသစ် ထည့်သွင်းခြင်း (Chef Portal)
+                {recipeToEdit ? 'ဟင်းချက်နည်း ပြင်ဆင်ခြင်း (Edit Recipe)' : 'ဟင်းချက်နည်းအသစ် ထည့်သွင်းခြင်း'}
               </h3>
-              <p className="text-xs sm:text-sm text-stone-500">
-                ပါဝင်ပစ္စည်းများ၊ အတိုင်းအတာနှင့် ချက်ပြုတ်အဆင့်များကို ထည့်သွင်းပါ
+              <p className="text-xs text-stone-500">
+                Admin Panel: ပါဝင်ပစ္စည်းများ၊ အချိုးအစားနှင့် အဆင့်များကို ထည့်သွင်းပါ
               </p>
             </div>
           </div>
@@ -125,10 +148,9 @@ export default function AddRecipeModal({ isOpen, onClose, onAddRecipe }) {
           </button>
         </div>
 
-        {/* Form Body */}
+        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
           
-          {/* Basic Info */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-bold text-stone-700 mb-1">
@@ -140,7 +162,7 @@ export default function AddRecipeModal({ isOpen, onClose, onAddRecipe }) {
                 value={title}
                 onChange={e => setTitle(e.target.value)}
                 placeholder="ဥပမာ - ကြက်သားဆီပြန် မွှေးမွှေးလေး"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-sm focus:outline-hidden focus:ring-2 focus:ring-orange-500"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-xs sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-orange-500"
               />
             </div>
 
@@ -153,7 +175,7 @@ export default function AddRecipeModal({ isOpen, onClose, onAddRecipe }) {
                 value={titleEn}
                 onChange={e => setTitleEn(e.target.value)}
                 placeholder="e.g. Classic Burmese Chicken Curry"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-sm focus:outline-hidden focus:ring-2 focus:ring-orange-500"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-xs sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-orange-500"
               />
             </div>
           </div>
@@ -191,7 +213,7 @@ export default function AddRecipeModal({ isOpen, onClose, onAddRecipe }) {
                 type="text"
                 value={prepTime}
                 onChange={e => setPrepTime(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-stone-200 text-xs sm:text-sm"
+                className="w-full px-3 py-2 rounded-xl border border-stone-200 text-xs"
               />
             </div>
 
@@ -201,7 +223,7 @@ export default function AddRecipeModal({ isOpen, onClose, onAddRecipe }) {
                 type="text"
                 value={cookTime}
                 onChange={e => setCookTime(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-stone-200 text-xs sm:text-sm"
+                className="w-full px-3 py-2 rounded-xl border border-stone-200 text-xs"
               />
             </div>
           </div>
@@ -212,8 +234,8 @@ export default function AddRecipeModal({ isOpen, onClose, onAddRecipe }) {
               type="url"
               value={image}
               onChange={e => setImage(e.target.value)}
-              placeholder="https://..."
-              className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-sm focus:ring-2 focus:ring-orange-500"
+              placeholder="https://images.unsplash.com/..."
+              className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-xs sm:text-sm focus:ring-2 focus:ring-orange-500"
             />
           </div>
 
@@ -224,7 +246,7 @@ export default function AddRecipeModal({ isOpen, onClose, onAddRecipe }) {
               value={description}
               onChange={e => setDescription(e.target.value)}
               placeholder="ဒီဟင်းရဲ့ ထူးခြားချက်နှင့် အရသာကို ဖော်ပြပါ..."
-              className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-sm focus:ring-2 focus:ring-orange-500"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-xs sm:text-sm focus:ring-2 focus:ring-orange-500"
             />
           </div>
 
@@ -239,7 +261,7 @@ export default function AddRecipeModal({ isOpen, onClose, onAddRecipe }) {
               value={chefTip}
               onChange={e => setChefTip(e.target.value)}
               placeholder="ဥပမာ - မီးပြင်းပြင်းမသုံးဘဲ မီးအေးအေးဖြင့် ဆီသတ်ပါက..."
-              className="w-full px-3.5 py-2 rounded-xl bg-white border border-amber-200 text-sm"
+              className="w-full px-3.5 py-2 rounded-xl bg-white border border-amber-200 text-xs sm:text-sm"
             />
           </div>
 
@@ -248,9 +270,9 @@ export default function AddRecipeModal({ isOpen, onClose, onAddRecipe }) {
             <div className="flex items-center justify-between">
               <div>
                 <h4 className="font-extrabold text-sm text-stone-900">
-                  ပါဝင်ပစ္စည်းများနှင့် အတိုင်းအတာ (မူလ ၄ ယောက်စာအတွက်)
+                  ပါဝင်ပစ္စည်းများနှင့် အချိုးအစား (မူလ ၄ ယောက်စာအတွက်)
                 </h4>
-                <p className="text-xs text-stone-500">ဆား၊ ဟင်းခတ်မှုန့်၊ သကြား ပမာဏများကို အတိအကျ ထည့်သွင်းပေးပါ</p>
+                <p className="text-2xs text-stone-500">ဆား၊ ဟင်းခတ်မှုန့် ပမာဏများကို အတိအကျ ထည့်သွင်းပေးပါ</p>
               </div>
               <button
                 type="button"
@@ -306,7 +328,7 @@ export default function AddRecipeModal({ isOpen, onClose, onAddRecipe }) {
                 <h4 className="font-extrabold text-sm text-stone-900">
                   အဆင့်ဆင့် ချက်ပြုတ်နည်းများ
                 </h4>
-                <p className="text-xs text-stone-500">အဆင့်တိုင်းအတွက် အချိန်မှတ်စနစ် (စက္ကန့်) သတ်မှတ်နိုင်ပါသည်</p>
+                <p className="text-2xs text-stone-500">အဆင့်တိုင်းအတွက် အချိန်မှတ်စနစ် (စက္ကန့်) သတ်မှတ်နိုင်ပါသည်</p>
               </div>
               <button
                 type="button"
@@ -365,20 +387,20 @@ export default function AddRecipeModal({ isOpen, onClose, onAddRecipe }) {
             </div>
           </div>
 
-          {/* Form Actions */}
+          {/* Actions */}
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-100">
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-2.5 rounded-xl border border-stone-200 text-stone-700 font-semibold text-sm hover:bg-stone-50 cursor-pointer"
+              className="px-5 py-2.5 rounded-xl border border-stone-200 text-stone-700 font-semibold text-xs sm:text-sm hover:bg-stone-50 cursor-pointer"
             >
               မလုပ်တော့ပါ
             </button>
             <button
               type="submit"
-              className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 text-white font-bold text-sm shadow-md hover:shadow-lg transition-all cursor-pointer"
+              className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all cursor-pointer"
             >
-              ဟင်းချက်နည်း တင်မည်
+              {recipeToEdit ? 'သိမ်းဆည်းမည် (Update)' : 'ဟင်းချက်နည်း တင်မည်'}
             </button>
           </div>
 
