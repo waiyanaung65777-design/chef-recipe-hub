@@ -121,39 +121,39 @@ export default function AddRecipeModal({ isOpen, onClose, onSaveRecipe, recipeTo
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-950/60 backdrop-blur-xs animate-in fade-in">
-      <div className="bg-white rounded-3xl max-w-3xl w-full p-6 sm:p-8 shadow-2xl border border-stone-200 space-y-6 relative max-h-[92vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-stone-950/60 backdrop-blur-xs animate-in fade-in">
+      <div className="bg-white rounded-3xl max-w-3xl w-full p-4 sm:p-8 shadow-2xl border border-stone-200 space-y-5 relative max-h-[92vh] overflow-y-auto">
         
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-stone-100 pb-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center">
+        <div className="flex items-center justify-between border-b border-stone-100 pb-3">
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center">
               <Utensils className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-extrabold text-lg sm:text-xl text-stone-900">
-                {recipeToEdit ? 'ဟင်းချက်နည်း ပြင်ဆင်ခြင်း (Edit Recipe)' : 'ဟင်းချက်နည်းအသစ် ထည့်သွင်းခြင်း'}
+              <h3 className="font-black text-base sm:text-xl text-stone-900">
+                {recipeToEdit ? 'ဟင်းချက်နည်း ပြင်ဆင်ခြင်း' : 'ဟင်းချက်နည်း အသစ်တင်မည်'}
               </h3>
-              <p className="text-xs text-stone-500">
-                Admin Panel: ပါဝင်ပစ္စည်းများ၊ အချိုးအစားနှင့် အဆင့်များကို ထည့်သွင်းပါ
+              <p className="text-3xs sm:text-xs text-stone-500">
+                Admin Panel: အချိုးအစားနှင့် အဆင့်များကို ထည့်ပါ
               </p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="p-2 rounded-xl text-stone-400 hover:text-stone-700 hover:bg-stone-100 transition-colors cursor-pointer"
+            className="p-1.5 rounded-xl text-stone-400 hover:text-stone-700 hover:bg-stone-100 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div>
-              <label className="block text-xs font-bold text-stone-700 mb-1">
+              <label className="block text-2xs sm:text-xs font-bold text-stone-700 mb-1">
                 ဟင်းအမည် (မြန်မာလို) *
               </label>
               <input
@@ -161,32 +161,32 @@ export default function AddRecipeModal({ isOpen, onClose, onSaveRecipe, recipeTo
                 required
                 value={title}
                 onChange={e => setTitle(e.target.value)}
-                placeholder="ဥပမာ - ကြက်သားဆီပြန် မွှေးမွှေးလေး"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-xs sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-orange-500"
+                placeholder="ဥပမာ - ကြက်သားဆီပြန်"
+                className="w-full px-3 py-2 rounded-xl border border-stone-200 text-xs sm:text-sm focus:ring-2 focus:ring-orange-500"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-stone-700 mb-1">
+              <label className="block text-2xs sm:text-xs font-bold text-stone-700 mb-1">
                 English အမည်
               </label>
               <input
                 type="text"
                 value={titleEn}
                 onChange={e => setTitleEn(e.target.value)}
-                placeholder="e.g. Classic Burmese Chicken Curry"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-xs sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-orange-500"
+                placeholder="e.g. Burmese Chicken Curry"
+                className="w-full px-3 py-2 rounded-xl border border-stone-200 text-xs sm:text-sm focus:ring-2 focus:ring-orange-500"
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
             <div>
-              <label className="block text-xs font-bold text-stone-700 mb-1">အမျိုးအစား</label>
+              <label className="block text-3xs sm:text-2xs font-bold text-stone-700 mb-1">အမျိုးအစား</label>
               <select
                 value={category}
                 onChange={e => setCategory(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-stone-200 text-xs sm:text-sm bg-white"
+                className="w-full px-2.5 py-1.5 rounded-xl border border-stone-200 text-xs bg-white"
               >
                 {categories.filter(c => !c.startsWith('အားလုံး')).map((c, i) => (
                   <option key={i} value={c}>{c}</option>
@@ -195,11 +195,11 @@ export default function AddRecipeModal({ isOpen, onClose, onSaveRecipe, recipeTo
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-stone-700 mb-1">ခက်ခဲမှုအဆင့်</label>
+              <label className="block text-3xs sm:text-2xs font-bold text-stone-700 mb-1">ခက်ခဲမှု</label>
               <select
                 value={difficulty}
                 onChange={e => setDifficulty(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-stone-200 text-xs sm:text-sm bg-white"
+                className="w-full px-2.5 py-1.5 rounded-xl border border-stone-200 text-xs bg-white"
               >
                 <option value="လွယ်ကူ">လွယ်ကူ</option>
                 <option value="အသင့်အတင့်">အသင့်အတင့်</option>
@@ -208,142 +208,144 @@ export default function AddRecipeModal({ isOpen, onClose, onSaveRecipe, recipeTo
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-stone-700 mb-1">ပြင်ဆင်ချိန်</label>
+              <label className="block text-3xs sm:text-2xs font-bold text-stone-700 mb-1">ပြင်ဆင်ချိန်</label>
               <input
                 type="text"
                 value={prepTime}
                 onChange={e => setPrepTime(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-stone-200 text-xs"
+                className="w-full px-2.5 py-1.5 rounded-xl border border-stone-200 text-xs"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-stone-700 mb-1">ချက်ပြုတ်ချိန်</label>
+              <label className="block text-3xs sm:text-2xs font-bold text-stone-700 mb-1">ချက်ပြုတ်ချိန်</label>
               <input
                 type="text"
                 value={cookTime}
                 onChange={e => setCookTime(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-stone-200 text-xs"
+                className="w-full px-2.5 py-1.5 rounded-xl border border-stone-200 text-xs"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-stone-700 mb-1">ဟင်းဓာတ်ပုံ Link (URL)</label>
+            <label className="block text-2xs sm:text-xs font-bold text-stone-700 mb-1">ဟင်းဓာတ်ပုံ Link (URL)</label>
             <input
               type="url"
               value={image}
               onChange={e => setImage(e.target.value)}
-              placeholder="https://images.unsplash.com/..."
-              className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-xs sm:text-sm focus:ring-2 focus:ring-orange-500"
+              placeholder="https://..."
+              className="w-full px-3 py-2 rounded-xl border border-stone-200 text-xs sm:text-sm focus:ring-2 focus:ring-orange-500"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-stone-700 mb-1">ဟင်းအကြောင်း အကျဉ်းချုပ်</label>
+            <label className="block text-2xs sm:text-xs font-bold text-stone-700 mb-1">ဟင်းအကြောင်း အကျဉ်းချုပ်</label>
             <textarea
               rows={2}
               value={description}
               onChange={e => setDescription(e.target.value)}
-              placeholder="ဒီဟင်းရဲ့ ထူးခြားချက်နှင့် အရသာကို ဖော်ပြပါ..."
-              className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-xs sm:text-sm focus:ring-2 focus:ring-orange-500"
+              placeholder="ဒီဟင်းရဲ့ ထူးခြားချက်..."
+              className="w-full px-3 py-2 rounded-xl border border-stone-200 text-xs sm:text-sm focus:ring-2 focus:ring-orange-500"
             />
           </div>
 
           {/* Chef Tip */}
-          <div className="bg-amber-50 p-4 rounded-2xl border border-amber-200">
-            <label className="block text-xs font-bold text-amber-900 mb-1 flex items-center gap-1">
-              <Sparkles className="w-4 h-4 text-amber-600" />
-              စားဖိုမှူး၏ အထူးလျှို့ဝှက်ချက် (Chef's Secret Tip)
+          <div className="bg-amber-50 p-3 sm:p-4 rounded-2xl border border-amber-200">
+            <label className="block text-2xs sm:text-xs font-bold text-amber-900 mb-1 flex items-center gap-1">
+              <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+              စားဖိုမှူး၏ လျှို့ဝှက်ချက် (Chef's Secret Tip)
             </label>
             <input
               type="text"
               value={chefTip}
               onChange={e => setChefTip(e.target.value)}
-              placeholder="ဥပမာ - မီးပြင်းပြင်းမသုံးဘဲ မီးအေးအေးဖြင့် ဆီသတ်ပါက..."
-              className="w-full px-3.5 py-2 rounded-xl bg-white border border-amber-200 text-xs sm:text-sm"
+              placeholder="ဥပမာ - မီးပြင်းပြင်းမသုံးဘဲ မီးအေးအေးဖြင့် ဆီသတ်ပါ..."
+              className="w-full px-3 py-1.5 rounded-xl bg-white border border-amber-200 text-xs"
             />
           </div>
 
-          {/* INGREDIENTS LIST BUILDER */}
-          <div className="space-y-3 pt-2">
+          {/* INGREDIENTS BUILDER (Mobile Optimized layout) */}
+          <div className="space-y-2.5 pt-1">
             <div className="flex items-center justify-between">
               <div>
-                <h4 className="font-extrabold text-sm text-stone-900">
-                  ပါဝင်ပစ္စည်းများနှင့် အချိုးအစား (မူလ ၄ ယောက်စာအတွက်)
+                <h4 className="font-black text-xs sm:text-sm text-stone-900">
+                  ပါဝင်ပစ္စည်းများနှင့် အချိုးအစား (၄ ယောက်စာ)
                 </h4>
-                <p className="text-2xs text-stone-500">ဆား၊ ဟင်းခတ်မှုန့် ပမာဏများကို အတိအကျ ထည့်သွင်းပေးပါ</p>
+                <p className="text-3xs sm:text-2xs text-stone-500">ဆား၊ ဟင်းခတ်မှုန့် ပမာဏများ ထည့်ပါ</p>
               </div>
               <button
                 type="button"
                 onClick={handleAddIngredient}
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold bg-orange-100 text-orange-700 hover:bg-orange-200 cursor-pointer"
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-3xs sm:text-xs font-bold bg-orange-100 text-orange-700 hover:bg-orange-200 cursor-pointer"
               >
-                <Plus className="w-3.5 h-3.5" /> ပစ္စည်းအသစ်ထည့်မည်
+                <Plus className="w-3 h-3" /> ပစ္စည်းအသစ်
               </button>
             </div>
 
             <div className="space-y-2">
               {ingredients.map((ing, idx) => (
-                <div key={idx} className="flex items-center gap-2">
+                <div key={idx} className="flex flex-wrap sm:flex-nowrap items-center gap-1.5 p-2 rounded-xl bg-stone-50 sm:bg-transparent border sm:border-0 border-stone-200">
                   <input
                     type="text"
-                    placeholder="ပစ္စည်းအမည် (ဥပမာ - ဆား)"
+                    placeholder="ပစ္စည်း (ဥပမာ - ဆား)"
                     value={ing.name}
                     onChange={e => handleIngredientChange(idx, 'name', e.target.value)}
-                    className="flex-2 px-3 py-2 rounded-xl border border-stone-200 text-xs sm:text-sm"
+                    className="w-full sm:w-auto sm:flex-2 px-2.5 py-1.5 rounded-lg border border-stone-200 text-xs bg-white"
                   />
-                  <input
-                    type="number"
-                    step="0.1"
-                    min="0"
-                    placeholder="ပမာဏ"
-                    value={ing.baseAmount}
-                    onChange={e => handleIngredientChange(idx, 'baseAmount', e.target.value)}
-                    className="w-20 px-3 py-2 rounded-xl border border-stone-200 text-xs sm:text-sm text-center"
-                  />
-                  <input
-                    type="text"
-                    placeholder="ယူနစ် (လက်ဖက်ရည်ဇွန်း / ဂရမ်)"
-                    value={ing.unit}
-                    onChange={e => handleIngredientChange(idx, 'unit', e.target.value)}
-                    className="flex-1 px-3 py-2 rounded-xl border border-stone-200 text-xs sm:text-sm"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveIngredient(idx)}
-                    className="p-2 text-stone-400 hover:text-red-500 rounded-lg cursor-pointer"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
+                  <div className="flex items-center gap-1.5 w-full sm:w-auto">
+                    <input
+                      type="number"
+                      step="0.1"
+                      min="0"
+                      placeholder="ပမာဏ"
+                      value={ing.baseAmount}
+                      onChange={e => handleIngredientChange(idx, 'baseAmount', e.target.value)}
+                      className="w-16 px-2 py-1.5 rounded-lg border border-stone-200 text-xs text-center bg-white"
+                    />
+                    <input
+                      type="text"
+                      placeholder="ယူနစ်"
+                      value={ing.unit}
+                      onChange={e => handleIngredientChange(idx, 'unit', e.target.value)}
+                      className="flex-1 sm:w-28 px-2 py-1.5 rounded-lg border border-stone-200 text-xs bg-white"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveIngredient(idx)}
+                      className="p-1.5 text-stone-400 hover:text-red-500 rounded-lg cursor-pointer shrink-0"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
 
           {/* STEPS BUILDER */}
-          <div className="space-y-3 pt-2">
+          <div className="space-y-2.5 pt-1">
             <div className="flex items-center justify-between">
               <div>
-                <h4 className="font-extrabold text-sm text-stone-900">
+                <h4 className="font-black text-xs sm:text-sm text-stone-900">
                   အဆင့်ဆင့် ချက်ပြုတ်နည်းများ
                 </h4>
-                <p className="text-2xs text-stone-500">အဆင့်တိုင်းအတွက် အချိန်မှတ်စနစ် (စက္ကန့်) သတ်မှတ်နိုင်ပါသည်</p>
+                <p className="text-3xs sm:text-2xs text-stone-500">အချိန်မှတ်စနစ် (စက္ကန့်) ထည့်နိုင်ပါသည်</p>
               </div>
               <button
                 type="button"
                 onClick={handleAddStep}
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold bg-orange-100 text-orange-700 hover:bg-orange-200 cursor-pointer"
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-3xs sm:text-xs font-bold bg-orange-100 text-orange-700 hover:bg-orange-200 cursor-pointer"
               >
-                <Plus className="w-3.5 h-3.5" /> အဆင့်အသစ်ထည့်မည်
+                <Plus className="w-3 h-3" /> အဆင့်အသစ်
               </button>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-2.5">
               {steps.map((step, idx) => (
-                <div key={idx} className="p-3.5 rounded-2xl bg-stone-50 border border-stone-200 space-y-2">
+                <div key={idx} className="p-3 rounded-2xl bg-stone-50 border border-stone-200 space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-xs text-orange-600">အဆင့် {step.step}</span>
+                    <span className="font-bold text-2xs text-orange-600">အဆင့် {step.step}</span>
                     <button
                       type="button"
                       onClick={() => handleRemoveStep(idx)}
@@ -357,29 +359,29 @@ export default function AddRecipeModal({ isOpen, onClose, onSaveRecipe, recipeTo
                     placeholder="အဆင့် ခေါင်းစဉ် (ဥပမာ - ကြက်သား ဆီသတ်ခြင်း)"
                     value={step.title}
                     onChange={e => handleStepChange(idx, 'title', e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-white border border-stone-200 text-xs sm:text-sm font-semibold"
+                    className="w-full px-2.5 py-1.5 rounded-xl bg-white border border-stone-200 text-xs font-bold"
                   />
                   <textarea
                     rows={2}
                     placeholder="အသေးစိတ် ချက်ပြုတ်ပုံ ရှင်းပြချက်..."
                     value={step.desc}
                     onChange={e => handleStepChange(idx, 'desc', e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-white border border-stone-200 text-xs sm:text-sm"
+                    className="w-full px-2.5 py-1.5 rounded-xl bg-white border border-stone-200 text-xs"
                   />
                   <div className="grid grid-cols-2 gap-2">
                     <input
                       type="number"
-                      placeholder="အချိန်မှတ်စနစ် (စက္ကန့်) e.g. 300"
+                      placeholder="စက္ကန့် (e.g. 300)"
                       value={step.timerSeconds || ''}
                       onChange={e => handleStepChange(idx, 'timerSeconds', e.target.value)}
-                      className="px-3 py-1.5 rounded-xl bg-white border border-stone-200 text-xs"
+                      className="px-2.5 py-1 rounded-xl bg-white border border-stone-200 text-2xs"
                     />
                     <input
                       type="text"
-                      placeholder="ဤအဆင့်အတွက် အကြံပြုချက်"
+                      placeholder="အကြံပြုချက်"
                       value={step.tip || ''}
                       onChange={e => handleStepChange(idx, 'tip', e.target.value)}
-                      className="px-3 py-1.5 rounded-xl bg-white border border-stone-200 text-xs"
+                      className="px-2.5 py-1 rounded-xl bg-white border border-stone-200 text-2xs"
                     />
                   </div>
                 </div>
@@ -388,19 +390,19 @@ export default function AddRecipeModal({ isOpen, onClose, onSaveRecipe, recipeTo
           </div>
 
           {/* Actions */}
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-100">
+          <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-stone-100">
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-2.5 rounded-xl border border-stone-200 text-stone-700 font-semibold text-xs sm:text-sm hover:bg-stone-50 cursor-pointer"
+              className="px-4 py-2 rounded-xl border border-stone-200 text-stone-700 font-bold text-xs hover:bg-stone-50 cursor-pointer"
             >
               မလုပ်တော့ပါ
             </button>
             <button
               type="submit"
-              className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all cursor-pointer"
+              className="px-5 py-2 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 text-white font-bold text-xs shadow-xs transition-all cursor-pointer"
             >
-              {recipeToEdit ? 'သိမ်းဆည်းမည် (Update)' : 'ဟင်းချက်နည်း တင်မည်'}
+              {recipeToEdit ? 'သိမ်းမည် (Update)' : 'တင်မည်'}
             </button>
           </div>
 

@@ -71,53 +71,52 @@ export default function ReviewsSection({ recipeId, adminUser, onReviewAdded }) {
     }
   };
 
-  // Average Rating
   const avgRating = reviews.length > 0 
     ? (reviews.reduce((acc, curr) => acc + (curr.rating || 5), 0) / reviews.length).toFixed(1)
     : '5.0';
 
   return (
-    <div className="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200 shadow-xs space-y-8">
+    <div className="bg-white rounded-3xl p-4 sm:p-8 border border-stone-200 shadow-xs space-y-6 sm:space-y-8">
       
-      {/* Header & Stats */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-100 pb-6">
+      {/* Header & Stats (Mobile Responsive Stack) */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-100 pb-4 sm:pb-6">
         <div>
-          <div className="flex items-center gap-2">
-            <MessageSquare className="w-5 h-5 text-orange-600" />
-            <h2 className="font-extrabold text-xl text-stone-900">
-              ချက်ဖူးသူများ၏ သုံးသပ်ချက်နှင့် အဆင့်သတ်မှတ်ချက်များ (Reviews & Ratings)
+          <div className="flex items-center gap-1.5">
+            <MessageSquare className="w-4 h-4 text-orange-600" />
+            <h2 className="font-black text-base sm:text-xl text-stone-900">
+              သုံးသပ်ချက်နှင့် အဆင့်သတ်မှတ်ချက်များ
             </h2>
           </div>
-          <p className="text-xs sm:text-sm text-stone-500 mt-1">
-            ဒီဟင်းချက်နည်းကို စမ်းသပ်ချက်ပြုတ်ဖူးပါက သင့်အကြံပြုချက်ကို မျှဝေပေးခဲ့ပါ
+          <p className="text-3xs sm:text-xs text-stone-500 mt-0.5">
+            ဒီဟင်းချက်နည်းကို စမ်းသပ်ချက်ပြုတ်ဖူးပါက အကြံပြုချက် မျှဝေပေးခဲ့ပါ
           </p>
         </div>
 
         {/* Rating Score Badge */}
-        <div className="flex items-center gap-3 bg-amber-50 px-4 py-2.5 rounded-2xl border border-amber-200/80 shrink-0">
-          <div className="text-right">
-            <span className="font-black text-2xl text-stone-900">{avgRating}</span>
-            <span className="text-xs text-stone-500"> / ၅.၀</span>
+        <div className="flex items-center gap-2.5 bg-amber-50 px-3 py-2 rounded-2xl border border-amber-200/80 self-start sm:self-auto shrink-0">
+          <div>
+            <span className="font-black text-lg sm:text-2xl text-stone-900">{avgRating}</span>
+            <span className="text-3xs text-stone-500"> / ၅.၀</span>
           </div>
           <div className="flex text-amber-500">
             {[1, 2, 3, 4, 5].map(star => (
               <Star
                 key={star}
-                className={`w-4 h-4 ${star <= Math.round(avgRating) ? 'fill-current' : 'text-stone-300'}`}
+                className={`w-3.5 h-3.5 ${star <= Math.round(avgRating) ? 'fill-current' : 'text-stone-300'}`}
               />
             ))}
           </div>
-          <span className="text-xs font-bold text-amber-900">
+          <span className="text-2xs font-bold text-amber-900">
             ({reviews.length} ဦး)
           </span>
         </div>
       </div>
 
-      {/* Review Submission Form (Viewers) */}
-      <form onSubmit={handleSubmit} className="bg-stone-50/80 rounded-2xl p-5 border border-stone-200/80 space-y-4">
-        <div className="flex items-center justify-between">
-          <span className="text-xs sm:text-sm font-bold text-stone-800">
-            သင့်ရဲ့ အဆင့်သတ်မှတ်ချက် (Rating) ရွေးချယ်ပါ -
+      {/* Review Submission Form */}
+      <form onSubmit={handleSubmit} className="bg-stone-50/80 rounded-2xl p-3.5 sm:p-5 border border-stone-200/80 space-y-3 sm:space-y-4">
+        <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-2">
+          <span className="text-xs font-bold text-stone-800">
+            အဆင့်သတ်မှတ်ချက် (Rating) -
           </span>
 
           {/* Star selector */}
@@ -132,7 +131,7 @@ export default function ReviewsSection({ recipeId, adminUser, onReviewAdded }) {
                 className="p-1 text-amber-500 transition-transform hover:scale-125 cursor-pointer"
               >
                 <Star
-                  className={`w-6 h-6 ${(hoverRating || rating) >= star ? 'fill-current' : 'text-stone-300'}`}
+                  className={`w-5 h-5 ${(hoverRating || rating) >= star ? 'fill-current' : 'text-stone-300'}`}
                 />
               </button>
             ))}
@@ -142,7 +141,7 @@ export default function ReviewsSection({ recipeId, adminUser, onReviewAdded }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
           <input
             type="text"
             required
@@ -155,10 +154,10 @@ export default function ReviewsSection({ recipeId, adminUser, onReviewAdded }) {
           <button
             type="button"
             onClick={() => setShowPhotoInput(!showPhotoInput)}
-            className="inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-white border border-stone-200 text-xs sm:text-sm font-semibold text-stone-700 hover:bg-stone-100 transition-colors cursor-pointer"
+            className="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-white border border-stone-200 text-xs font-bold text-stone-700 hover:bg-stone-100 transition-colors cursor-pointer"
           >
             <Camera className="w-4 h-4 text-orange-600" />
-            <span>{showPhotoInput ? 'ဓာတ်ပုံဖြုတ်မည်' : 'ကိုယ်တိုင်ချက်ထားသော ဟင်းပုံတင်မည် (I Cooked This)'}</span>
+            <span className="truncate">{showPhotoInput ? 'ပုံဖျက်မည်' : 'ဟင်းပုံတင်မည် (I Cooked This)'}</span>
           </button>
         </div>
 
@@ -172,7 +171,7 @@ export default function ReviewsSection({ recipeId, adminUser, onReviewAdded }) {
               className="w-full px-3.5 py-2 rounded-xl bg-white border border-stone-200 text-xs focus:ring-2 focus:ring-orange-500"
             />
             {cookedImage && (
-              <div className="h-24 w-24 rounded-xl overflow-hidden border border-stone-300 mt-2">
+              <div className="h-20 w-20 rounded-xl overflow-hidden border border-stone-300 mt-2">
                 <img src={cookedImage} alt="Dish Preview" className="w-full h-full object-cover" />
               </div>
             )}
@@ -192,7 +191,7 @@ export default function ReviewsSection({ recipeId, adminUser, onReviewAdded }) {
           <button
             type="submit"
             disabled={submitting}
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white font-bold text-xs sm:text-sm shadow-xs transition-all cursor-pointer"
           >
             <Send className="w-4 h-4" />
             <span>{submitting ? 'တင်နေပါသည်...' : 'Review တင်မည်'}</span>
@@ -201,71 +200,70 @@ export default function ReviewsSection({ recipeId, adminUser, onReviewAdded }) {
       </form>
 
       {/* Reviews List */}
-      <div className="space-y-4">
+      <div className="space-y-3.5">
         {loading ? (
           <p className="text-center text-xs text-stone-400 py-6">Reviews များကို ခေါ်ယူနေပါသည်...</p>
         ) : reviews.length > 0 ? (
           reviews.map(item => (
             <div
               key={item.id}
-              className="p-4 sm:p-5 rounded-2xl bg-white border border-stone-200/90 shadow-2xs space-y-3"
+              className="p-3.5 sm:p-5 rounded-2xl bg-white border border-stone-200/90 shadow-2xs space-y-2.5"
             >
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-orange-100 text-orange-700 font-extrabold flex items-center justify-center text-sm">
+              <div className="flex items-start justify-between gap-2">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-orange-100 text-orange-700 font-black flex items-center justify-center text-xs">
                     {item.user_name ? item.user_name.charAt(0).toUpperCase() : 'U'}
                   </div>
                   <div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-extrabold text-sm text-stone-900">
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <span className="font-black text-xs sm:text-sm text-stone-900">
                         {item.user_name}
                       </span>
                       {item.cooked_image && (
-                        <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
+                        <span className="px-1.5 py-0.2 rounded-full text-3xs font-extrabold bg-emerald-100 text-emerald-800">
                           🍳 ချက်ပြုတ်ပြီးသူ
                         </span>
                       )}
                     </div>
-                    <div className="flex items-center gap-2 mt-0.5">
+                    <div className="flex items-center gap-1.5 mt-0.5">
                       <div className="flex text-amber-500">
                         {[1, 2, 3, 4, 5].map(s => (
                           <Star
                             key={s}
-                            className={`w-3.5 h-3.5 ${s <= item.rating ? 'fill-current' : 'text-stone-300'}`}
+                            className={`w-3 h-3 ${s <= item.rating ? 'fill-current' : 'text-stone-300'}`}
                           />
                         ))}
                       </div>
-                      <span className="text-xs text-stone-400">
+                      <span className="text-3xs text-stone-400">
                         {item.created_at ? new Date(item.created_at).toLocaleDateString() : 'မကြာသေးမီက'}
                       </span>
                     </div>
                   </div>
                 </div>
 
-                {/* Admin Delete Action */}
                 {adminUser && (
                   <button
                     onClick={() => handleDelete(item.id)}
-                    className="p-1.5 rounded-lg text-stone-400 hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
-                    title="Delete Review (Admin Only)"
+                    className="p-1 rounded-lg text-stone-400 hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
+                    title="Delete Review"
                   >
-                    <Trash2 className="w-4 h-4" />
+                    <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 )}
               </div>
 
-              {/* Review Comment Text */}
-              <p className="text-xs sm:text-sm text-stone-700 leading-relaxed font-medium pl-13">
+              {/* Comment text */}
+              <p className="text-xs sm:text-sm text-stone-700 leading-relaxed font-normal">
                 {item.comment}
               </p>
 
               {/* Cooked Dish Photo */}
               {item.cooked_image && (
-                <div className="pl-13 pt-1">
+                <div className="pt-1">
                   <img
                     src={item.cooked_image}
                     alt="Cooked dish"
-                    className="h-36 sm:h-44 rounded-xl object-cover border border-stone-200 shadow-2xs hover:scale-102 transition-transform cursor-pointer"
+                    className="h-32 sm:h-44 rounded-xl object-cover border border-stone-200 shadow-2xs cursor-pointer"
                     onClick={() => window.open(item.cooked_image, '_blank')}
                   />
                 </div>
@@ -273,10 +271,10 @@ export default function ReviewsSection({ recipeId, adminUser, onReviewAdded }) {
             </div>
           ))
         ) : (
-          <div className="text-center py-8 text-stone-400 space-y-1">
-            <MessageSquare className="w-8 h-8 mx-auto text-stone-300" />
-            <p className="text-sm">ဤဟင်းချက်နည်းအတွက် Review မရှိသေးပါ။</p>
-            <p className="text-xs">ပထမဆုံး သုံးသပ်ချက် ပေးပို့သူ ဖြစ်လာပါ!</p>
+          <div className="text-center py-6 text-stone-400 space-y-1">
+            <MessageSquare className="w-6 h-6 mx-auto text-stone-300" />
+            <p className="text-xs font-semibold">ဤဟင်းချက်နည်းအတွက် Review မရှိသေးပါ။</p>
+            <p className="text-3xs">ပထမဆုံး သုံးသပ်ချက် ပေးပို့သူ ဖြစ်လာပါ!</p>
           </div>
         )}
       </div>
