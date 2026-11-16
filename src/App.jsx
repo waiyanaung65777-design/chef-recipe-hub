@@ -354,10 +354,8 @@ export default function App() {
       {/* Footer */}
       <footer className="bg-white border-t border-stone-200 py-6 sm:py-8 print:hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-orange-600 flex items-center justify-center text-white">
-              <Utensils className="w-4 h-4" />
-            </div>
+          <div className="flex items-center gap-2.5">
+            <img src="/logo.jpg" alt="Burmese Food Recipes" className="h-8 w-auto object-contain rounded-md border border-amber-200/60" />
             <span className="font-black text-xs sm:text-sm text-stone-900">
               Burmese Food Recipes © 2026
             </span>

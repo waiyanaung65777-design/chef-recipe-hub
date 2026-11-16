@@ -2,7 +2,8 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-export const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL || 'admin@burmesefoodrecipes.com';
+export const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL || 'admin@bfr.com';
+export const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || 'Asdf1234!@#$';
 
 export const isSupabaseConfigured = Boolean(
   supabaseUrl && 
@@ -14,39 +15,55 @@ export const supabase = isSupabaseConfigured
   ? createClient(supabaseUrl, supabaseAnonKey)
   : null;
 
-// Local storage keys for fallback
+// Local storage keys
 const LOCAL_STORAGE_REVIEWS_KEY = 'burmese_food_reviews';
 const LOCAL_STORAGE_ADMIN_SESSION = 'burmese_food_admin_session';
 
 // --- AUTH HELPERS ---
 export async function loginAdmin(email, password) {
+  const cleanEmail = email.trim().toLowerCase();
+  
   if (isSupabaseConfigured) {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error) throw error;
-    return data.user;
-  } else {
-    // Local demo authentication
-    if (email === ADMIN_EMAIL || email === 'admin@burmesefoodrecipes.com' || email.includes('admin')) {
-      const demoUser = {
-        id: 'demo-admin-id',
-        email: email || ADMIN_EMAIL,
-        role: 'admin',
-        user_metadata: { name: 'Admin Master' }
-      };
-      localStorage.setItem(LOCAL_STORAGE_ADMIN_SESSION, JSON.stringify(demoUser));
-      return demoUser;
-    } else {
-      throw new Error('အီးမေးလ် သို့မဟုတ် စကားဝှက် မှားယွင်းနေပါသည်။ (Demo အနေဖြင့် admin@burmesefoodrecipes.com သုံးပါ)');
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: cleanEmail,
+        password: password,
+      });
+      if (!error && data?.user) {
+        const user = {
+          id: data.user.id,
+          email: data.user.email,
+          role: 'admin',
+          user_metadata: { name: 'Admin' }
+        };
+        localStorage.setItem(LOCAL_STORAGE_ADMIN_SESSION, JSON.stringify(user));
+        return user;
+      }
+    } catch {
+      // fallback to credential check
     }
+  }
+
+  // Strict Admin Credential Check
+  if (cleanEmail === ADMIN_EMAIL.toLowerCase() && password === ADMIN_PASSWORD) {
+    const adminUser = {
+      id: 'admin-bfr-id',
+      email: ADMIN_EMAIL,
+      role: 'admin',
+      user_metadata: { name: 'Burmese Food Admin' }
+    };
+    localStorage.setItem(LOCAL_STORAGE_ADMIN_SESSION, JSON.stringify(adminUser));
+    return adminUser;
+  } else {
+    throw new Error('အီးမေးလ် သို့မဟုတ် စကားဝှက် မှားယွင်းနေပါသည်။ (Invalid Email or Password)');
   }
 }
 
 export async function logoutAdmin() {
-  if (isSupabaseConfigured) {
-    await supabase.auth.signOut();
+  if (isSupabaseConfigured && supabase) {
+    try {
+      await supabase.auth.signOut();
+    } catch {}
   }
   localStorage.removeItem(LOCAL_STORAGE_ADMIN_SESSION);
 }
@@ -54,7 +71,15 @@ export async function logoutAdmin() {
 export function getStoredAdmin() {
   try {
     const stored = localStorage.getItem(LOCAL_STORAGE_ADMIN_SESSION);
-    return stored ? JSON.parse(stored) : null;
+    if (!stored) return null;
+    const parsed = JSON.parse(stored);
+    // Ensure only the valid admin user is recognized
+    if (parsed && parsed.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+      return parsed;
+    }
+    // Clean out any old/obsolete demo sessions
+    localStorage.removeItem(LOCAL_STORAGE_ADMIN_SESSION);
+    return null;
   } catch {
     return null;
   }
@@ -62,7 +87,7 @@ export function getStoredAdmin() {
 
 // --- REVIEWS & RATINGS HELPERS ---
 export async function fetchReviews(recipeId) {
-  if (isSupabaseConfigured) {
+  if (isSupabaseConfigured && supabase) {
     const { data, error } = await supabase
       .from('reviews')
       .select('*')
@@ -78,7 +103,7 @@ export async function fetchReviews(recipeId) {
 }
 
 export async function submitReview(reviewData) {
-  if (isSupabaseConfigured) {
+  if (isSupabaseConfigured && supabase) {
     const { data, error } = await supabase
       .from('reviews')
       .insert([reviewData])
@@ -93,7 +118,7 @@ export async function submitReview(reviewData) {
 }
 
 export async function removeReview(reviewId) {
-  if (isSupabaseConfigured) {
+  if (isSupabaseConfigured && supabase) {
     const { error } = await supabase
       .from('reviews')
       .delete()

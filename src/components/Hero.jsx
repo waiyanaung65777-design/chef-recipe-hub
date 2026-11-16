@@ -60,17 +60,17 @@ export default function Hero() {
           <div className="lg:col-span-5 flex justify-center">
             <div className="relative w-full max-w-xs sm:max-w-sm">
               <div className="absolute -inset-1.5 bg-gradient-to-r from-orange-500 to-amber-500 rounded-3xl blur-lg opacity-25"></div>
-              <div className="relative bg-white rounded-3xl p-3.5 sm:p-5 shadow-xl border border-stone-200/80 space-y-3">
-                <div className="relative h-48 sm:h-60 rounded-2xl overflow-hidden">
+              <div className="relative bg-white rounded-3xl p-4 sm:p-5 shadow-xl border border-stone-200/80 space-y-3">
+                <div className="relative h-48 sm:h-60 rounded-2xl overflow-hidden bg-white flex items-center justify-center p-2 border border-amber-200/50 shadow-inner">
                   <img 
-                    src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" 
-                    alt="Burmese Food"
-                    className="w-full h-full object-cover"
+                    src="/logo.jpg" 
+                    alt="Burmese Food Recipes"
+                    className="w-full h-full object-contain hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-stone-900/85 backdrop-blur-md text-white p-2.5 rounded-xl flex items-center justify-between">
+                  <div className="absolute bottom-2 left-2 right-2 bg-stone-900/85 backdrop-blur-md text-white p-2 sm:p-2.5 rounded-xl flex items-center justify-between">
                     <div>
-                      <p className="font-black text-xs sm:text-sm">Burmese Food Recipes</p>
-                      <p className="text-3xs sm:text-2xs text-stone-300">Authentic Culinary Guide</p>
+                      <p className="font-black text-xs sm:text-sm text-amber-300">Burmese Food Recipes</p>
+                      <p className="text-3xs sm:text-2xs text-stone-300">Official Culinary Platform</p>
                     </div>
                     <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
                   </div>

@@ -27,20 +27,24 @@ export default function Navbar({
             }}
             className="flex items-center gap-2.5 sm:gap-3 text-left group cursor-pointer shrink-0"
           >
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-orange-600 via-amber-600 to-yellow-500 flex items-center justify-center text-white shadow-md shadow-orange-500/25 group-hover:scale-105 transition-all">
-              <Utensils className="w-5 h-5 sm:w-6 sm:h-6" />
+            <div className="h-11 sm:h-14 flex items-center justify-center p-0.5 rounded-xl border border-amber-200/60 bg-white shadow-2xs group-hover:shadow-md transition-all">
+              <img 
+                src="/logo.jpg" 
+                alt="Burmese Food Recipes" 
+                className="h-10 sm:h-13 w-auto object-contain rounded-lg group-hover:scale-102 transition-transform"
+              />
             </div>
             <div>
               <div className="flex items-center gap-1.5 sm:gap-2">
                 <span className="font-black text-base sm:text-xl text-stone-900 tracking-tight">
-                  Burmese Food
+                  Burmese Food Recipes
                 </span>
-                <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-2xs font-extrabold bg-orange-100 text-orange-800">
-                  <Sparkles className="w-2.5 h-2.5 mr-0.5 text-orange-600" /> ရိုးရာ
+                <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-2xs font-extrabold bg-amber-100 text-amber-900 border border-amber-200">
+                  <Sparkles className="w-2.5 h-2.5 mr-0.5 text-amber-600" /> ရိုးရာ
                 </span>
               </div>
               <p className="text-2xs text-stone-500 font-medium hidden xs:block">
-                ဟင်းချက်နည်းနှင့် အချိုးအစားများ
+                မြန်မာ့အစားအစာ ချက်ပြုတ်နည်း လျှို့ဝှက်ချက်များ
               </p>
             </div>
           </button>
